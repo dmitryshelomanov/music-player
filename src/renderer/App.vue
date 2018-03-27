@@ -14,7 +14,3 @@
     name: 'music-player'
   }
 </script>
-
-<style>
-  /* CSS */
-</style>

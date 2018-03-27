@@ -59,21 +59,14 @@ export default {
       this.$refs.dropzone.classList.add('dropzone__enter')
     },
     checkAudioType(files) {
-      const tmpFileInfo = []
-
       for (let i = 0; i < files.length; i++) {
-        tmpFileInfo.push({
-          id: i,
-          name: files[i].name,
-          path: files[i].path,
-        })
         if (this.validTypes.indexOf(files[i].type) === -1) {
           this.error = true
           this.placeholder = 'invalid type files'
           return
         }
       }
-      this.setTracks(tmpFileInfo)
+      this.setTracks(files)
       this.$router.push({ name: 'player' })
     },
     ...mapActions({

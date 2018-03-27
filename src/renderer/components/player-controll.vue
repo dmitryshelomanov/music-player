@@ -43,18 +43,18 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { Analyser } from '@/utils/analyser'
+import analyser from '@/utils/analyser'
 import { getMusicBuffer } from '@/utils/get-music-buffer'
+import audio from '@/utils/audio'
+import { setTimeout } from 'timers';
 
 
 export default {
-  data: () => ({
-    analyser: new Analyser(),
-  }),
   computed: {
     ...mapGetters([
       'getIsPlayState',
       'getPlayerReady',
+      'getTracks',
     ]),
   },
   methods: {
@@ -63,22 +63,18 @@ export default {
     }),
     play() {
       this.togglePlayState(true)
-      this.analyser.play()
+      analyser.play()
     },
     pause() {
       this.togglePlayState(false)
-      this.analyser.stop()
+      analyser.pause()
     },
   },
-  async mounted() {
-    try {
-      this.analyser.decodeAudioData(
-        await getMusicBuffer('/home/userbq201/Music/Anton_Rothschild_-_03_-_Its_Not_Vegas.mp3')
-      )
-    }
-    catch (error) {
-      console.warn(error)
-    }
+  mounted() {
+    analyser.audioSetSource(this.getTracks[0])
   },
+  destroyed() {
+    this.pause()
+  }
 }
 </script>

@@ -8,6 +8,7 @@
       @click.native="goBack"
     />
     <PlayerWrapper />
+    <visualize />
   </div>
 </template>
 
@@ -18,9 +19,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    
   }
-
   .main:before, .main:after, div.filter {
     position: absolute;
     top: 0;
@@ -28,12 +27,11 @@
     width: 100%;
     height: 100%;
   }
-
   .main div.filter {
+    z-index: -2;
     filter: blur(2px);
     background: #fff url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/thousand-thursday%402x.jpg') center center / cover;
   }
-
   .main-icon {
     position: absolute;
     z-index: 2;
@@ -43,7 +41,6 @@
     cursor: pointer;
     transition: .5s;
   }
-  
   .main-icon:hover {
     transform: scale(1.3)
   }
@@ -53,10 +50,13 @@
 <script>
 import { mapActions } from 'vuex'
 import PlayerWrapper from '@/components/player-wrapper'
+import Visualize from '@/components/visualize'
+
 
 export default {
   components: {
     PlayerWrapper,
+    'visualize': Visualize,
   },
   methods: {
     goBack() {

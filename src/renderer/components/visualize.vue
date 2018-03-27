@@ -1,7 +1,7 @@
 <template>
   <div class="visualize">
     <svg
-      height="50"
+      height="300"
       :width="width"
       ref="svgRender"
     />
@@ -46,8 +46,8 @@ export default {
         .data(analyser.dataArray)
         .enter()
         .append('rect')
-        .attr('x', (d, i) => i * (this.width / analyser.dataArray.length))
-        .attr('width', this.width  / analyser.dataArray.length - this.barPadding)
+        .attr('x', (d, i) => i * 15)
+        .attr('width', 15)
     },
     registerAnimation() {
       requestAnimationFrame(this.registerAnimation)
@@ -58,9 +58,9 @@ export default {
       this.$d3.select(this.$refs.svgRender)
         .selectAll('rect')
         .data(analyser.dataArray)
-        .attr('y', (d) => 50 - d)
-        .attr('height', (d) => d)
-        .attr('fill', (d) => `rgb(0, 0, ${d})`)
+        .attr('y', (d) => 300 - d)
+        .attr('height', (d) => d + 10)
+        .attr('fill', (d) => `rgba(244, 138, ${d}, .9)`)
     }
   },
   mounted() {

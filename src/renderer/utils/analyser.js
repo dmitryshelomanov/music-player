@@ -20,7 +20,6 @@ class Analyser {
 
   audioSetSource(track) {
     this.audio.src = window.URL.createObjectURL(track)
-    this.audio.load()
   }
 
   play(track, isNext = false) {

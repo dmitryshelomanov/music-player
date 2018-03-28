@@ -57,7 +57,7 @@ export default {
         .data(analyser.dataArray)
         .attr('y', (d) => 500 - d)
         .attr('height', (d) => d)
-        .attr('fill', (d) => `rgba(244, 138, ${d}, .9)`)
+        .attr('fill', (d) => `rgba(235, 32, ${d}, .9)`)
     }
   },
   mounted() {

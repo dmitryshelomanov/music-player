@@ -24,7 +24,7 @@
       />
     </div>
     <div class="controll__info">
-      <h3>{{ getTrackInfo.name }}</h3>
+      <h3>{{ getTracks[getActiveTrack].name }}</h3>
     </div>
     <div class="controll__helper-btn">
       <v-icon
@@ -98,13 +98,6 @@ export default {
       'showNextArrow',
       'showPrevArrow',
     ]),
-    getTrackInfo() {
-      const { name } = this.getTracks[this.getActiveTrack]
-
-      return {
-        name,
-      }
-    },
   },
   methods: {
     ...mapActions({
@@ -122,6 +115,7 @@ export default {
   },
   mounted() {
     analyser.audioSetSource(this.getTracks[this.getActiveTrack])
+
     EventBus.$on('audioEnded', () => {
       if (!this.showNextArrow) {
         this.togglePlayState(false)

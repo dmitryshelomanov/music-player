@@ -46,6 +46,7 @@ export default {
     placeholder: 'drag & drop music list',
     validTypes: [
       'audio/mp3',
+      'audio/mp4',
     ],
   }),
   methods: {

@@ -5,9 +5,10 @@
   >
     <img
       src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/345377/thousand-thursday%402x.jpg"
-      @click="sideUpdate"
     />
-    <player-controll />
+    <player-controll
+      :sideUpdate="sideUpdate"
+    />
   </player-side>
 </template>
 

@@ -15,7 +15,6 @@
     height: 510px;
     background: #fff;
     position: absolute;
-    box-shadow: 0px 0px 15px 0px rgba(230, 126, 126, 0.5);
     border-radius: 5px;
   }
 </style>

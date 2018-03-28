@@ -51,9 +51,6 @@ export default {
     },
     registerAnimation() {
       requestAnimationFrame(this.registerAnimation)
-      if (!this.getIsPlayState) {
-        return
-      }
       analyser.updateByteData()
       this.$d3.select(this.$refs.svgRender)
         .selectAll('rect')

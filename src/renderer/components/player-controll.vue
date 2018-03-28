@@ -6,21 +6,32 @@
     >
       <v-icon
         name="chevron-left"
-        width="40"
+        width="20"
         class="controll__icon"
         :color="!showPrevArrow ? 'rgba(0, 0, 0, .5)' : 'black'"
       />
       <v-icon
         :name="getIsPlayState ? 'pause' : 'play'"
-        width="45"
+        width="30"
         class="controll__icon"
         @click.native="getIsPlayState ? pause() : play()"
       />
       <v-icon
         name="chevron-right"
-        width="40"
+        width="20"
         class="controll__icon"
         :color="!showNextArrow ? 'rgba(0, 0, 0, .5)' : 'black'"
+      />
+    </div>
+    <div class="controll__info">
+      <h3>{{ getTrackInfo.name }}</h3>
+    </div>
+    <div class="controll__helper-btn">
+      <v-icon
+        name="list"
+        width="20"
+        class="controll__icon"
+        @click.native="sideUpdate"
       />
     </div>
   </div>
@@ -30,16 +41,38 @@
   .controll {
     display: flex;
     width: 100%;
+    height: 185px;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .controll__btn {
     display: flex;
     width: 100%;
-    padding: 15px;
     justify-content: space-around;
     align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
   }
   .controll__icon {
     cursor: pointer;
+  }
+  h3 {
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    margin: 15px 0;
+  }
+  .controll__helper-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #ed1a42;
+    border-radius: 0 0 05px 5px;
+    box-shadow: 0px -1px 2px #e0d5d5;
+    color: white;
   }
 </style>
 
@@ -50,6 +83,12 @@ import { EventBus } from '@/utils/event-bus'
 
 
 export default {
+    props: {
+    sideUpdate: {
+      type: Function,
+      required: true,
+    },
+  },
   computed: {
     ...mapGetters([
       'getIsPlayState',
@@ -59,6 +98,13 @@ export default {
       'showNextArrow',
       'showPrevArrow',
     ]),
+    getTrackInfo() {
+      const { name } = this.getTracks[this.getActiveTrack]
+
+      return {
+        name,
+      }
+    },
   },
   methods: {
     ...mapActions({
@@ -90,6 +136,6 @@ export default {
   },
   destroyed() {
     this.pause()
-  }
+  },
 }
 </script>

@@ -16,11 +16,7 @@
     background: #fff;
     position: absolute;
     box-shadow: 0px 0px 15px 0px rgba(230, 126, 126, 0.5);
-    transition: all .2s;
     border-radius: 5px;
-  }
-  .side:hover {
-    transform: scale(1.05);
   }
 </style>
 

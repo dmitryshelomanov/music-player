@@ -8,10 +8,11 @@
         name="chevron-left"
         width="40"
         class="controll__icon"
+        :color="!showPrevArrow ? 'rgba(0, 0, 0, .5)' : 'black'"
       />
       <v-icon
         :name="getIsPlayState ? 'pause' : 'play'"
-        width="50"
+        width="45"
         class="controll__icon"
         @click.native="getIsPlayState ? pause() : play()"
       />
@@ -19,6 +20,7 @@
         name="chevron-right"
         width="40"
         class="controll__icon"
+        :color="!showNextArrow ? 'rgba(0, 0, 0, .5)' : 'black'"
       />
     </div>
   </div>
@@ -44,9 +46,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import analyser from '@/utils/analyser'
-import { getMusicBuffer } from '@/utils/get-music-buffer'
-import audio from '@/utils/audio'
-import { setTimeout } from 'timers';
+import { EventBus } from '@/utils/event-bus'
 
 
 export default {
@@ -55,11 +55,15 @@ export default {
       'getIsPlayState',
       'getPlayerReady',
       'getTracks',
+      'getActiveTrack',
+      'showNextArrow',
+      'showPrevArrow',
     ]),
   },
   methods: {
     ...mapActions({
       togglePlayState: 'PLAY_TRACK',
+      setActiveTrack: 'SET_ACTIVE_TRACK',
     }),
     play() {
       this.togglePlayState(true)
@@ -71,7 +75,18 @@ export default {
     },
   },
   mounted() {
-    analyser.audioSetSource(this.getTracks[0])
+    analyser.audioSetSource(this.getTracks[this.getActiveTrack])
+    EventBus.$on('audioEnded', () => {
+      if (!this.showNextArrow) {
+        this.togglePlayState(false)
+        return
+      }
+      this.setActiveTrack(this.getActiveTrack + 1)
+      analyser.play(
+        this.getTracks[this.getActiveTrack],
+        true,
+      )
+    })
   },
   destroyed() {
     this.pause()

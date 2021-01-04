@@ -53,7 +53,7 @@
   "dependencies": {
     "animate.css": "^3.6.1",
     "animated-vue": "^0.5.3",
-    "axios": "^0.16.1",
+    "axios": "^0.21.1",
     "vue": "^2.3.3",
     "vue-d3": "^0.1.0",
     "vue-electron": "^1.0.6",

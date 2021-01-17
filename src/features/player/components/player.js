@@ -7,6 +7,8 @@ const Wrapepr = styled.div`
   height: 510px;
   background: #fff;
   border-radius: 5px;
+  box-shadow: 0 0 20px 0px #6c171e;
+  overflow: hidden;
 `;
 
 export function Player({ list, handlePlay, activeTrack }) {

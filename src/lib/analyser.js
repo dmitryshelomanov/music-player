@@ -1,3 +1,5 @@
+import { createEvent } from "effector";
+
 class Analyser {
   constructor() {
     this.audio = new Audio();
@@ -8,6 +10,11 @@ class Analyser {
     this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
     this.source.connect(this.analyser);
     this.analyser.connect(this.ctx.destination);
+    this.trackEnded = createEvent();
+
+    this.audio.addEventListener("ended", () => {
+      this.trackEnded();
+    });
   }
 
   updateByteData = () => {

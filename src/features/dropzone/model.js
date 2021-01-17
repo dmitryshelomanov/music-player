@@ -1,4 +1,4 @@
-import { restore, createEvent, createEffect, forward } from "effector-logger";
+import { restore, createEvent, createEffect, forward } from "effector";
 
 export const setTrackList = createEvent();
 export const setActiveTrack = createEvent();

@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import * as d3 from "d3";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { analyser } from "../lib/analyser";
+import { useResize } from "../lib/resize";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -19,30 +19,40 @@ const Wrapper = styled.div`
 `;
 
 export function Visualize() {
-  const svg = useRef();
+  const ref = useRef();
+  const [canvasWidth, setCanvasWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    d3.select(svg.current)
-      .selectAll("rect")
-      .data(analyser.dataArray)
-      .enter()
-      .append("rect")
-      .attr("x", (d, i) => i * 4)
-      .attr("width", 4);
-  }, []);
+  useResize(({ width }) => {
+    setCanvasWidth(width);
+  });
 
   useEffect(() => {
     let reqId = undefined;
+    const chartMaxHeigth = 500;
+    const chartWidth = 4;
+    const ctx = ref.current.getContext("2d");
+
+    ref.current.height = chartMaxHeigth;
+    ref.current.width = canvasWidth;
 
     function tick() {
       analyser.updateByteData();
 
-      d3.select(svg.current)
-        .selectAll("rect")
-        .data(analyser.dataArray)
-        .attr("y", (d) => 500 - d)
-        .attr("height", (d) => d)
-        .attr("fill", (d) => `rgba(235, 32, ${d}, .9)`);
+      ctx.clearRect(0, 0, ref.current.width, ref.current.height);
+
+      const dataSlice = Array.from(analyser.dataArray).slice(
+        0,
+        Math.ceil(canvasWidth / chartWidth)
+      );
+
+      dataSlice.forEach((data, i) => {
+        const yPos = data === 0 ? chartMaxHeigth : data;
+
+        ctx.fillStyle = `rgba(235, 32, ${data}, .9)`;
+        ctx.fillRect(i * chartWidth, yPos, chartWidth, chartMaxHeigth);
+      });
+
+      ctx.stroke();
 
       reqId = requestAnimationFrame(tick);
     }
@@ -52,11 +62,11 @@ export function Visualize() {
     return () => {
       cancelAnimationFrame(reqId);
     };
-  }, []);
+  }, [canvasWidth]);
 
   return (
     <Wrapper>
-      <svg height="500" ref={svg} />
+      <canvas ref={ref} />
     </Wrapper>
   );
 }

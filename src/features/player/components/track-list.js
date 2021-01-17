@@ -15,7 +15,7 @@ const Item = styled.li`
   list-style: none;
   flex-direction: column;
   cursor: pointer;
-  /* transition: 0.3s; */
+  transition: 0.3s;
   padding: 25px 15px;
   font-size: 12px;
   font-weight: 300;
@@ -37,6 +37,7 @@ export function TrackList({ list, onTrackClick, activeTrack }) {
     <List>
       {list.map((track) => (
         <Item
+          key={`${track.name}/${track.lastModified}`}
           className={classnames({ active: activeTrack === track })}
           onClick={() => {
             onTrackClick(track);

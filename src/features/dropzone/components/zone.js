@@ -38,7 +38,11 @@ export function Dropzone({ handleFiles, error }) {
         className={classnames({ error: !!error })}
         ref={zone}
         onDrop={(e) => {
+          e.preventDefault();
           handleFiles(e.dataTransfer.files);
+        }}
+        onDragOver={(e) => {
+          e.preventDefault();
         }}
       >
         <p>{error ? error : "drag & drop music list"}</p>

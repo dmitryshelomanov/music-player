@@ -20,7 +20,10 @@ export const validateMusicFx = createEffect(
 );
 
 export const $trackList = restore(validateMusicFx.doneData, []);
-export const $validateMusicError = restore(validateMusicFx.failData, null);
+export const $validateMusicError = restore(
+  validateMusicFx.failData,
+  null
+).reset(validateMusicFx.doneData);
 export const $activeTrack = restore(setActiveTrack, null);
 
 forward({ from: setTrackList, to: validateMusicFx });

@@ -28,17 +28,24 @@ export function Visualize() {
 
   useEffect(() => {
     let reqId = undefined;
-    const chartMaxHeigth = 500;
-    const chartWidth = 4;
+    const chartMaxHeigth = 300;
+    const chartWidth = 5 * window.devicePixelRatio;
     const ctx = ref.current.getContext("2d");
+    let prevSlice = [];
 
     ref.current.height = chartMaxHeigth;
     ref.current.width = canvasWidth;
 
     function tick() {
+      if (!ref.current) {
+        return;
+      }
+
       analyser.updateByteData();
 
       ctx.clearRect(0, 0, ref.current.width, ref.current.height);
+      ctx.save();
+      ctx.translate(0, chartMaxHeigth);
 
       const dataSlice = Array.from(analyser.dataArray).slice(
         0,
@@ -46,13 +53,15 @@ export function Visualize() {
       );
 
       dataSlice.forEach((data, i) => {
-        const yPos = data === 0 ? chartMaxHeigth : data;
+        const yPos =
+          data === 0 ? (prevSlice[i] || -1) + 1 : ((prevSlice[i] = data), data);
 
         ctx.fillStyle = `rgba(235, 32, ${data}, .9)`;
-        ctx.fillRect(i * chartWidth, yPos, chartWidth, chartMaxHeigth);
+        ctx.fillRect(i * chartWidth, yPos * -1, chartWidth, chartMaxHeigth);
       });
 
       ctx.stroke();
+      ctx.restore();
 
       reqId = requestAnimationFrame(tick);
     }

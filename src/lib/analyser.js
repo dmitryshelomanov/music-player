@@ -1,9 +1,11 @@
 import { createEvent } from "effector";
 
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
 class Analyser {
   constructor() {
     this.audio = new Audio();
-    this.ctx = new AudioContext();
+    this.ctx = new AudioCtx();
     this.source = this.ctx.createMediaElementSource(this.audio);
     this.analyser = this.ctx.createAnalyser();
     this.analyser.fftSize = 2048;
@@ -25,8 +27,9 @@ class Analyser {
     return new Promise(async (res, rej) => {
       try {
         await this.ctx.resume();
+        this.audio.muted = false;
         this.audio.src = window.URL.createObjectURL(track);
-        this.audio.play();
+        await this.audio.play();
         res(true);
       } catch (error) {
         rej(error);

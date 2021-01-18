@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useStore } from "effector-react";
 import bg from "../../assets/bg.jpg";
-import { Player, play } from "../../features/player";
+import { Player, play, pause } from "../../features/player";
 import { $trackList, $activeTrack } from "../../features/dropzone";
 import { Visualize } from "../../ui";
 
@@ -33,6 +33,12 @@ const PlayerWrapper = styled.div`
 export function PlayerPage() {
   const trackList = useStore($trackList);
   const activeTrack = useStore($activeTrack);
+
+  useEffect(() => {
+    return () => {
+      pause();
+    };
+  }, []);
 
   return (
     <>

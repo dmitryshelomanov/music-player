@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useStore } from "effector-react";
+import { useHistory } from "react-router-dom";
 import bg from "../../assets/bg.jpg";
-import { Player, play, pause } from "../../features/player";
+import { Player, toggleTrack, pause } from "../../features/player";
 import { $trackList, $activeTrack } from "../../features/dropzone";
 import { Visualize } from "../../ui";
 
@@ -31,6 +32,7 @@ const PlayerWrapper = styled.div`
 `;
 
 export function PlayerPage() {
+  const { push } = useHistory();
   const trackList = useStore($trackList);
   const activeTrack = useStore($activeTrack);
 
@@ -40,6 +42,12 @@ export function PlayerPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (trackList.length === 0) {
+      push("/");
+    }
+  }, [push, trackList.length]);
+
   return (
     <>
       <PlayerWrapper>
@@ -47,8 +55,8 @@ export function PlayerPage() {
         <Player
           activeTrack={activeTrack}
           list={trackList}
-          handlePlay={(file) => {
-            play(file);
+          toggleTrack={(file) => {
+            toggleTrack(file);
           }}
         />
       </PlayerWrapper>

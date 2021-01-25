@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { TrackList } from "./track-list";
+import { Header } from "./header";
 
 const Wrapepr = styled.div`
   width: 320px;
@@ -11,12 +12,13 @@ const Wrapepr = styled.div`
   overflow: hidden;
 `;
 
-export function Player({ list, handlePlay, activeTrack }) {
+export function Player({ list, toggleTrack, activeTrack }) {
   return (
     <Wrapepr>
+      <Header />
       <TrackList
         list={list}
-        onTrackClick={handlePlay}
+        onTrackClick={toggleTrack}
         activeTrack={activeTrack}
       />
     </Wrapepr>
